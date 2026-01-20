@@ -50,5 +50,8 @@ Regels:
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log("Server draait");
+  console.log("Server draait op poort",PORT);
+});
+app.on('error',(err) => {
+  console.error('Server error;', err);
 });
