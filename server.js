@@ -49,7 +49,6 @@ Regels:
     error: error.message || "Onbekende AI fout"
   });
 }
-  }
 });
 
 const PORT = process.env.PORT || 3000;
