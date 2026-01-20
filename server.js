@@ -49,6 +49,10 @@ Regels:
 });
 
 const PORT = process.env.PORT || 3000;
+app.get("/", (req, res) => {
+  res.send("TripFlow AI backend draait!");
+});
+
 app.listen(PORT, () => {
   console.log("Server draait op poort",PORT);
 });
