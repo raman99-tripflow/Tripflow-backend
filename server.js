@@ -15,7 +15,7 @@ app.post("/generate-plan", async (req, res) => {
     const { stad, dagen, interesses, tempo } = req.body;
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4.1-turbo",
+      model: "gpt-40-mini",
       messages: [
         {
           role: "system",
