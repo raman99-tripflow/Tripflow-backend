@@ -44,7 +44,11 @@ Regels:
 
     res.json({ planning: response.choices[0].message.content });
   } catch (error) {
-    res.status(500).json({ error: "AI fout" });
+  console.error("OPENAI ERROR:", error);
+  res.status(500).json({
+    error: error.message || "Onbekende AI fout"
+  });
+}
   }
 });
 
