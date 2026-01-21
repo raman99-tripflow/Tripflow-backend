@@ -7,28 +7,41 @@ app.use(cors());
 app.use(express.json());
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY
 });
 
 app.post("/generate-plan", async (req, res) => {
   try {
-    const { stad, dagen, interesses, tempo } = req.body;
+    const {
+      stad,
+      dagen,
+      personen,
+      interesses,
+      tempo,
+      budget,
+      vervoer
+    } = req.body;
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
+      temperature: 0.7,
       messages: [
         {
           role: "system",
           content: `
-Je bent een professionele reisplanner met 15 jaar ervaring.
-Je maakt realistische, rustige en goed gebalanceerde dagplanningen.
+Je bent een professionele reisplanner met meer dan 15 jaar ervaring.
+Je maakt realistische, comfortabele en goed gebalanceerde citytrip-planningen.
 
-Let op:
-- Logische volgorde
-- Max 3 activiteiten per dag
-- Rustmomenten
-- Eettijden
+Je houdt altijd rekening met:
+- Logische volgorde van locaties
+- Afstand en reistijd
+- Gemiddelde duur van activiteiten
 - Tempo van de reiziger
+- Budgetniveau
+- Aantal personen
+- Gekozen vervoersmiddel
+
+Schrijf concreet, overzichtelijk en uitvoerbaar.
 `
         },
         {
@@ -36,16 +49,30 @@ Let op:
           content: `
 Maak een persoonlijke citytrip planning.
 
+Gegevens:
 Stad: ${stad}
 Aantal dagen: ${dagen}
+Aantal personen: ${personen}
 Interesses: ${interesses}
 Tempo: ${tempo}
+Budget: ${budget}
+Vervoer: ${vervoer}
+
+Regels:
+- Maximaal 3 hoofdactiviteiten per dag
+- Cluster activiteiten per wijk/buurt
+- Vermeld per activiteit:
+  • gemiddelde duur
+  • geschatte reistijd
+  • vervoerswijze
+- Voeg rustmomenten toe
+- Voeg per dag 1 slecht-weer alternatief toe
 
 Structuur EXACT zo:
 
-Dag 1:
+Dag 1 – [Buurt/Wijk]:
 Ochtend:
-- ...
+- Activiteit (duur: ±X uur, reistijd: ±X min, vervoer: ...)
 
 Middag:
 - ...
@@ -53,20 +80,24 @@ Middag:
 Avond:
 - ...
 
+Rustmoment:
+- ...
+
 Slecht-weer alternatief:
 - ...
 `
         }
-      ],
-      temperature: 0.7,
+      ]
     });
 
-    res.json({ planning: response.choices[0].message.content });
+    res.json({
+      planning: response.choices[0].message.content
+    });
 
   } catch (error) {
     console.error("OPENAI ERROR:", error);
     res.status(500).json({
-      error: error.message || "Onbekende AI fout",
+      error: error.message || "AI fout"
     });
   }
 });
