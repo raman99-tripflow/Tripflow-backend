@@ -34,23 +34,45 @@ Schrijf duidelijk, concreet en zonder overbodige tekst.
 `
 }
         },
-        {
-          role: "user",
-          content: `
-Maak een dagplanning voor een reiziger.
+         {
+  role: "user",
+  content: `
+Maak een persoonlijke dagplanning voor een citytrip.
 
-Stad: ${stad}
-Aantal dagen: ${dagen}
-Interesses: ${interesses}
-Tempo: ${tempo}
+Gegevens:
+- Stad: ${stad}
+- Aantal personen: ${personen}
+- Aantal dagen: ${dagen}
+- Interesses: ${interesses}
+- Tempo: ${tempo}
 
 Regels:
 - Maximaal 3 hoofdactiviteiten per dag
-- Ochtend / Middag / Avond
-- Voeg rustmomenten toe
-- Geef 1 alternatief bij slecht weer
+- Verdeel per dag in: Ochtend, Middag, Avond
+- Voeg per dag 1 rustmoment toe
+- Voeg per dag 1 slecht-weer alternatief toe
+- Houd rekening met het gekozen tempo
+- Gebruik duidelijke kopjes per dag
+
+Structuur EXACT zo:
+
+Dag 1:
+Ochtend:
+- ...
+
+Middag:
+- ...
+
+Avond:
+- ...
+
+Slecht-weer alternatief:
+- ...
+
+Dag 2:
+...
 `
-        }
+}
       ],
       temperature: 0.7
     });
