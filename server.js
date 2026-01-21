@@ -18,8 +18,7 @@ app.post("/generate-plan", async (req, res) => {
       personen,
       interesses,
       tempo,
-      budget,
-      vervoer
+      budget
     } = req.body;
 
     const response = await openai.chat.completions.create({
@@ -30,16 +29,22 @@ app.post("/generate-plan", async (req, res) => {
           role: "system",
           content: `
 Je bent een professionele reisplanner met meer dan 15 jaar ervaring.
-Je maakt realistische, comfortabele en goed gebalanceerde citytrip-planningen.
+Je maakt realistische en comfortabele citytrip-planningen.
 
-Je houdt altijd rekening met:
+Je bepaalt zelf het beste vervoermiddel tussen activiteiten, op basis van:
+- Afstand
+- Budget
+- Tempo van de reiziger
+
+Gebruik realistische vervoerswijzen zoals lopen, openbaar vervoer of taxi/Uber.
+Geef duidelijk aan per verplaatsing welk vervoersmiddel wordt aangeraden.
+
+Houd rekening met:
 - Logische volgorde van locaties
-- Afstand en reistijd
 - Gemiddelde duur van activiteiten
 - Tempo van de reiziger
 - Budgetniveau
 - Aantal personen
-- Gekozen vervoersmiddel
 
 Schrijf concreet, overzichtelijk en uitvoerbaar.
 `
@@ -56,7 +61,6 @@ Aantal personen: ${personen}
 Interesses: ${interesses}
 Tempo: ${tempo}
 Budget: ${budget}
-Vervoer: ${vervoer}
 
 Regels:
 - Maximaal 3 hoofdactiviteiten per dag
@@ -64,7 +68,7 @@ Regels:
 - Vermeld per activiteit:
   • gemiddelde duur
   • geschatte reistijd
-  • vervoerswijze
+  • aanbevolen vervoerswijze (door jou bepaald)
 - Voeg rustmomenten toe
 - Voeg per dag 1 slecht-weer alternatief toe
 
